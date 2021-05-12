@@ -73,6 +73,13 @@
 {
     WKWebViewConfiguration* configuration = [[WKWebViewConfiguration alloc] init];
     configuration.processPool = [[CDVWebViewProcessPoolFactory sharedFactory] sharedProcessPool];
+
+    if (@available(iOS 14.0, *)) {
+        configuration.limitsNavigationsToAppBoundDomains = YES;
+    } else {
+        // Fallback on earlier versions
+    }
+
     if (settings == nil) {
         return configuration;
     }
@@ -142,7 +149,7 @@
         } else if ([contentMode isEqual: @"desktop"]) {
             configuration.defaultWebpagePreferences.preferredContentMode = WKContentModeDesktop;
         }
-        
+
     }
 
     return configuration;
